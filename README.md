@@ -19,7 +19,7 @@ SMCAMDProcessor
 属性|默认|备注
 ---|---|---
 CPBStatus|0|CPB状态（0：关闭，1：启用）
-SpeedID|0|频率表中的ID值，具体代表的频率请自行打开`AMD Power Gadget.app`后在选项的`Speed`->`Advanced Options`中查询
+SpeedID|1|频率表中的ID值，具体代表的频率请自行打开`AMD Power Gadget.app`后在选项的`Speed`->`Advanced Options`中查询
 
 *已知问题：设置为非0的值后并不能与`AMD Power Gadget.app`中的`Overview`->`Speed Steps`列表对应*
 
