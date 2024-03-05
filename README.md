@@ -8,10 +8,20 @@ SMCAMDProcessor
 
 # 说明
 这是我基于[trulyspinach/SMCAMDProcessor](https://github.com/trulyspinach/SMCAMDProcessor)的一些修改，所有代码均来自于网络搬运，目前实现了：  
+
 1. 修复0.7.x后在`iStat Menus`中显示CPU温度；  
 2. 添加CPU功耗、GPU温度的SMCKey输出；  
-3. 开机自动关闭CPB；  
-4. 睡眠唤醒后恢复睡睡眠前的CPB状态。  
+3. AMDRyzenCPUPowerManagement.kext中支持设置开机时的CPB状态以及频率定义；
+4. 睡眠唤醒后恢复睡睡眠前的CPB状态及频率设置。 
+
+## AMDRyzenCPUPowerManagement.kext 新加的属性：
+
+属性|默认|备注
+---|---|---
+CPBStatus|0|CPB状态（0：关闭，1：启用）
+SpeedID|0|频率表中的ID值，具体代表的频率请自行打开`AMD Power Gadget.app`后在选项的`Speed`->`Advanced Options`中查询
+
+*已知问题：设置为非0的值后并不能与`AMD Power Gadget.app`中的`Overview`->`Speed Steps`列表对应*
 
 # 截图
 

@@ -175,7 +175,11 @@ class PowerToolViewController: NSViewController, NSWindowDelegate {
     
     @IBAction func onOverviewSpeedStep(_ sender: Any) {
         ProcessorModel.shared.setPPM(enabled: false)
+        // 在系统日志中记录要设置的speed并带上文字描述
+        print("set speed:", overviewSpeedShift.selectedItem)
         ProcessorModel.shared.setPState(state: overviewSpeedShift.selectedItem)
+        // 输出当前设置的speed
+        print("current speed:", ProcessorModel.shared.getPState())
         updateASA()
     }
     

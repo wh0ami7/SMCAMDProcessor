@@ -379,14 +379,36 @@ bool AMDRyzenCPUPowerManagement::start(IOService *provider){
     workLoop = IOWorkLoop::workLoop();
     initWorkLoop();
 
-	// 初始化时关闭CPB
-    setCPBState(sleepState.cpb);
-    writePstate(sleepState.pstate);
+	// 初始化时是否关闭CPB
+    uint8_t customValue = 0;
+    OSNumber *arg;
+    arg = OSDynamicCast(OSNumber, getProperty("CPBStatus"));
+    if(arg==NULL){
+        customValue = 0;
+    } else {
+        customValue = arg->unsigned8BitValue();
+    }
+    sleepState.cpb = customValue>=1;
+    // 实际用到的其实并不是频率值，而是psate列表中的序号
+    arg = OSDynamicCast(OSNumber, getProperty("SpeedID"));
+    if(arg==NULL){
+        customValue = 0;
+    } else {
+        customValue = arg->unsigned8BitValue();
+    }
 
     PMinit();
     provider->joinPMtree(this);
     registerPowerDriver(this, powerStates, kNrOfPowerStates);
-
+  
+    // 设置了自定义频率并且关闭了cpb
+    if(!sleepState.cpb) {
+        setCPBState(sleepState.cpb);
+        setPMPStateLimit(0);
+        sleepState.PStateCtl = customValue;
+        applyPowerControl(sleepState.PStateCtl);
+    }
+    
     return success;
 }
 
@@ -602,9 +624,8 @@ void AMDRyzenCPUPowerManagement::applyPowerControl(uint8_t pstate){
         auto provider = args->provider;
         auto pstate = args->pstate;
 
-        if(pstate != 0) provider->PStateCtl = pstate;
-        else
-            provider->sleepState.PStateCtl = provider->PStateCtl;
+        if(pstate != 255) provider->PStateCtl = pstate;
+        provider->sleepState.PStateCtl = provider->PStateCtl;
         provider->write_msr(kMSR_PSTATE_CTL, (uint64_t)(provider->PStateCtl & 0x7));
     }, nullptr, &args);
 }
