@@ -629,7 +629,11 @@ void AMDRyzenCPUPowerManagement::applyPowerControl(uint8_t pstate){
         provider->write_msr(kMSR_PSTATE_CTL, (uint64_t)(provider->PStateCtl & 0x7));
     }, nullptr, &args);
 }
-
+uint8_t AMDRyzenCPUPowerManagement::getPowerControl(){
+    uint64_t val;
+    read_msr(kMSR_PSTATE_CTL, &val);
+    return val & 0x7;
+}
 
 void AMDRyzenCPUPowerManagement::setCPBState(bool enabled){
     IOLog("AMDCPUSupport::setCPBState enabled is %s\n", enabled?"true":"false");

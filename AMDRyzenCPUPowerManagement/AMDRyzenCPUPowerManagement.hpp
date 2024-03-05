@@ -157,6 +157,7 @@ public:
     void calculateEffectiveFrequency(uint8_t physical);
     void updateInstructionDelta(uint8_t physical);
     void applyPowerControl(uint8_t pstate);
+    uint8_t getPowerControl();
     
     void setCPBState(bool enabled);
     bool getCPBState();

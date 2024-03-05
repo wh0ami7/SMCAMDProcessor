@@ -184,7 +184,7 @@ IOReturn AMDRyzenCPUPMUserClient::externalMethod(uint32_t selector, IOExternalMe
             
             dataOut[0] = (float)fProvider->uniPackageEnergy;
             dataOut[1] = fProvider->PACKAGE_TEMPERATURE_perPackage[0];
-            dataOut[2] = fProvider->PStateCtl;
+            dataOut[2] = fProvider->getPowerControl();
             
             for(uint32_t i = 0; i < numPhyCores; i++){
                 dataOut[i + 3] = fProvider->effFreq_perCore[i];
