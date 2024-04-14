@@ -33,6 +33,7 @@ bool SMCAMDProcessor::setupKeysVsmc(){
     // This is a modern key present in e.g. MacPro6,1.
     // Only one key, regardless of CPU count.
     suc &= VirtualSMCAPI::addKey(KeyPCTR, vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp96, new EnergyPackage(fProvider, 0)));
+    VirtualSMCAPI::addKey(KeyVCxC(0), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp3c, new EnergyPackage(fProvider, 0)));
 
     //CPU 温度
 
@@ -63,7 +64,7 @@ bool SMCAMDProcessor::setupKeysVsmc(){
     // CPU Heatsink Temperature, 1 per physical CPU
     // This is a legacy key present in e.g. iMac12,2.
     // No Mac models with more than 1 CPU were released with this key.
-    // suc &= VirtualSMCAPI::addKey(KeyTCxH(0), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp78, new TempPackage(this, 0)));
+    suc &= VirtualSMCAPI::addKey(KeyTCxH(0), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp78, new TempPackage(fProvider, 0)));
 
     // [TC0J] type [sp78] 73703738 len [ 2] attr [C0] -> ATTR_WRITE|ATTR_READ
     // CPU PECI die temp max error filtered output used in TC0F=TC0E+TC0G in C°, 1 per physical CPU
@@ -179,7 +180,7 @@ bool SMCAMDProcessor::setupKeysVsmc(){
     // CPU Raw Package power, raw ADC input value.
     // This is a legacy key present in e.g. MacBookAir3,1.
     for(int core = 0; core <= fProvider->totalNumberOfPhysicalCores; core++){
-        // VirtualSMCAPI::addKey(KeyTCxC(core), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp78, new TempCore(fProvider, core)));
+        VirtualSMCAPI::addKey(KeyTCxC(core), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp78, new TempCore(fProvider, core)));
         VirtualSMCAPI::addKey(KeyTCxc(core), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp78, new TempCore(fProvider, core)));
         // VirtualSMCAPI::addKey(KeyPCxC(core), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp96, new EnergyPackage(fProvider, core)));
         // VirtualSMCAPI::addKey(KeyPCxc(core), vsmcPlugin.data, VirtualSMCAPI::valueWithSp(0, SmcKeyTypeSp96, new EnergyPackage(fProvider, core)));
@@ -196,7 +197,8 @@ bool SMCAMDProcessor::setupKeysVsmc(){
     } else {
         IOLog("AMDCPUSupport::setupKeysVsmc: VirtualSMCAPI::addKey succeed!. \n");
     }
-    
+    qsort(const_cast<VirtualSMCKeyValue *>(vsmcPlugin.data.data()), vsmcPlugin.data.size(), sizeof(VirtualSMCKeyValue), VirtualSMCKeyValue::compare);
+
     return suc;
 }
 
