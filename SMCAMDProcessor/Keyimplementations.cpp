@@ -22,6 +22,13 @@ SMC_RESULT TempCore::readAccess() {
     return SmcSuccess;
 }
 
+SMC_RESULT ClockCore::readAccess() {
+    uint16_t *ptr = reinterpret_cast<uint16_t *>(data);
+    *ptr = VirtualSMCAPI::encodeSp(type, (double)provider->effFreq_perCore[core]);
+
+    return SmcSuccess;
+}
+
 SMC_RESULT EnergyPackage::readAccess(){
     if (type == SmcKeyTypeFloat)
         *reinterpret_cast<uint32_t *>(data) = VirtualSMCAPI::encodeFlt(provider->uniPackageEnergy);

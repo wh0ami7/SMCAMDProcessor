@@ -4,6 +4,6 @@ VirtualSMC.kext/
 VirtualSMC/
 SMCAMDProcessor.xcodeproj/
 .DS_Store
-
+build
 cleanup.py
 
