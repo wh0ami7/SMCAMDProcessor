@@ -404,9 +404,11 @@ bool AMDRyzenCPUPowerManagement::start(IOService *provider){
     // 设置了自定义频率并且关闭了cpb
     if(!sleepState.cpb) {
         setCPBState(sleepState.cpb);
-        setPMPStateLimit(0);
-        sleepState.PStateCtl = customValue;
-        applyPowerControl(sleepState.PStateCtl);
+        if(customValue) {
+            setPMPStateLimit(0);
+            sleepState.PStateCtl = customValue;
+            applyPowerControl(sleepState.PStateCtl);
+        }
     }
     
     return success;
