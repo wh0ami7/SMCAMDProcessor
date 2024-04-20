@@ -44,6 +44,7 @@ class SMCAMDProcessor : public IOService {
      *  Supported SMC keys
      */
     static constexpr SMC_KEY KeyPC0C = SMC_MAKE_IDENTIFIER('P','C','0','C');
+    static constexpr SMC_KEY KeyPC0c = SMC_MAKE_IDENTIFIER('P','C','0','c');
     static constexpr SMC_KEY KeyPC0G = SMC_MAKE_IDENTIFIER('P','C','0','G');
     static constexpr SMC_KEY KeyPC0R = SMC_MAKE_IDENTIFIER('P','C','0','R');
     static constexpr SMC_KEY KeyPC3C = SMC_MAKE_IDENTIFIER('P','C','3','C');
@@ -68,6 +69,7 @@ class SMCAMDProcessor : public IOService {
     static constexpr SMC_KEY KeyTCxT(size_t i) { return SMC_MAKE_IDENTIFIER('T','C',KeyIndexes[i],'T'); }
     static constexpr SMC_KEY KeyTCxp(size_t i) { return SMC_MAKE_IDENTIFIER('T','C',KeyIndexes[i],'p'); }
     static constexpr SMC_KEY KeyPCxc(size_t i) { return SMC_MAKE_IDENTIFIER('P','C',KeyIndexes[i],'p'); }
+    static constexpr SMC_KEY KeyPCxC(size_t i) { return SMC_MAKE_IDENTIFIER('P','C',KeyIndexes[i],'C'); }
     static constexpr SMC_KEY KeyTCxC(size_t i) { return SMC_MAKE_IDENTIFIER('T','C',KeyIndexes[i],'C'); }
     static constexpr SMC_KEY KeyTCxc(size_t i) { return SMC_MAKE_IDENTIFIER('T','C',KeyIndexes[i],'c'); }
 	static constexpr SMC_KEY KeyVCxC(size_t i) { return SMC_MAKE_IDENTIFIER('V','C',KeyIndexes[i],'C'); }
